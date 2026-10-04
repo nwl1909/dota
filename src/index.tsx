@@ -18,7 +18,9 @@ store.dispatch(getMetadata());
 //@ts-expect-error
 store.dispatch(getStrings());
 
-const history = createBrowserHistory();
+const basename = import.meta.env.BASE_URL.replace(/\/$/, "");
+
+const history = createBrowserHistory({ basename });
 
 if (process.env.NODE_ENV === "production") {
   ReactGA.initialize("UA-55757642-1");
@@ -33,10 +35,7 @@ const rootElement = document.getElementById("root");
 
 const app = (
   <Provider store={store}>
-    <BrowserRouter
-      //@ts-expect-error
-      history={history}
-    >
+    <BrowserRouter basename={basename}>
       <App />
     </BrowserRouter>
   </Provider>

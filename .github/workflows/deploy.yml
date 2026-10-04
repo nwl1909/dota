@@ -26,7 +26,16 @@ jobs:
           cache: npm
       - run: npm ci
       # только сборка Vite (без typecheck, чтобы мелкие TS-замечания не блокировали деплой)
-      - run: npx vite build
+      - name: Build
+        run: |
+          # Репозиторий вида user.github.io лежит в корне, остальные — в /имя-репозитория/
+          REPO="${GITHUB_REPOSITORY#*/}"
+          case "$REPO" in
+            *.github.io) export BASE_PATH="/" ;;
+            *) export BASE_PATH="/$REPO/" ;;
+          esac
+          echo "BASE_PATH=$BASE_PATH"
+          npx vite build
         env:
           NODE_ENV: production
       # SPA-фолбэк: GitHub Pages отдаёт 404.html для неизвестных путей,
