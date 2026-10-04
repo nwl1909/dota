@@ -7,7 +7,7 @@ export const useAbilities = () => {
   useEffect(() => {
     const loadAbilities = async () => {
       const imp =
-        await import("dotaconstants/build/abilities.json");
+        await import("../../node_modules/dotaconstants/build/abilities.json");
       const def = imp.default;
       setAbilities(def);
       data = def;

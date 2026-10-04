@@ -7,7 +7,7 @@ export const usePatchnotes = () => {
   useEffect(() => {
     const loadPatchnotes = async () => {
       const imp =
-        await import("dotaconstants/build/patchnotes.json");
+        await import("../../node_modules/dotaconstants/build/patchnotes.json");
       const def = imp.default;
       setPatchnotes(def);
       data = def;
