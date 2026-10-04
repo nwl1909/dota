@@ -43,8 +43,9 @@ class Player extends React.Component<PlayerProps> {
   render() {
     const { location, match, strings, isPlayerProfilePublic } = this.props;
     const { playerId } = this.props.match.params;
-    if (BigInt(playerId) > BigInt("76561197960265728")) {
-      this.props.history.push(
+    // /players/abc раньше падал в BigInt() и ронял всю страницу
+    if (/^\d+$/.test(playerId) && BigInt(playerId) > BigInt("76561197960265728")) {
+      this.props.history.replace(
         `/players/${BigInt(playerId) - BigInt("76561197960265728")}`,
       );
     }

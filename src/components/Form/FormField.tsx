@@ -22,7 +22,7 @@ const addChipToUrl = (
       [name]: field,
     };
     history.push(
-      `${window.location.pathname}?${querystring.stringify(newQuery)}`,
+      `${history.location.pathname}?${querystring.stringify(newQuery)}`,
     );
   }
 };
@@ -39,7 +39,7 @@ const deleteChipFromUrl = (name: string, index: number, history?: any) => {
       delete newQuery[name];
     }
     history.push(
-      `${window.location.pathname}?${querystring.stringify(newQuery)}`,
+      `${history.location.pathname}?${querystring.stringify(newQuery)}`,
     );
   }
 };

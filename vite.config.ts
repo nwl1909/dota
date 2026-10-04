@@ -1,10 +1,9 @@
 import { loadEnvFile } from "node:process";
 import fs from "node:fs";
 
-try {
+// .env есть только локально; в GitHub Actions его нет — это нормально
+if (fs.existsSync(".env")) {
   loadEnvFile();
-} catch (e) {
-  console.log(e);
 }
 
 // Базовый путь сайта. Для GitHub Pages в подпапке (user.github.io/dota/) = "/dota/".

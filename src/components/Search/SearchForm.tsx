@@ -12,6 +12,9 @@ type SearchFormProps = {
   history: {
     push: Function;
   };
+  location: {
+    pathname: string;
+  };
   strings: Strings;
   small: boolean;
 };
@@ -21,7 +24,7 @@ class SearchForm extends React.Component<SearchFormProps, { query?: string }> {
     super(props);
 
     const params = querystring.parse(window.location.search.substring(1));
-    const { pathname } = window.location;
+    const { pathname } = this.props.location;
     if (params.q && pathname === "/search") {
       this.props.dispatchSearch(params.q);
       this.state = {
@@ -40,7 +43,6 @@ class SearchForm extends React.Component<SearchFormProps, { query?: string }> {
   };
 
   handleChange = (e: any) => {
-    const { pathname } = window.location;
     const { value } = e.target;
 
     this.setState({

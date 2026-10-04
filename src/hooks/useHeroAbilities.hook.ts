@@ -7,7 +7,7 @@ export const useHeroAbilities = () => {
   useEffect(() => {
     const loadHeroAbilities = async () => {
       const imp =
-        await import("../../node_modules/dotaconstants/build/hero_abilities.json");
+        await import("dotaconstants/build/hero_abilities.json");
       const def = imp.default;
       setHeroAbilities(def);
       data = def;

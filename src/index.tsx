@@ -1,13 +1,10 @@
 import React from "react";
-import { createBrowserHistory } from "history";
 import { render, hydrate } from "react-dom";
 import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
-import ReactGA from "react-ga";
 import store from "./store";
 import { getMetadata, getStrings } from "./actions";
 import App from "./components/App/App";
-// import { unregister } from './common/serviceWorker';
 import "./tokens.css";
 import "./index.css";
 
@@ -18,18 +15,8 @@ store.dispatch(getMetadata());
 //@ts-expect-error
 store.dispatch(getStrings());
 
+// GitHub Pages: сайт лежит в подпапке (/имя-репозитория/), берём её из vite base
 const basename = import.meta.env.BASE_URL.replace(/\/$/, "");
-
-const history = createBrowserHistory({ basename });
-
-if (process.env.NODE_ENV === "production") {
-  ReactGA.initialize("UA-55757642-1");
-  ReactGA.pageview(window.location.pathname + window.location.search);
-
-  history.listen((location) => {
-    ReactGA.pageview(location.pathname);
-  });
-}
 
 const rootElement = document.getElementById("root");
 
@@ -52,5 +39,3 @@ const loader = document.getElementById("loader");
 if (loader) {
   loader.remove();
 }
-
-// unregister();

@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
 import Helmet from "react-helmet";
+import { useHistory } from "react-router-dom";
 import { Button } from "@mui/material";
 import { TextField } from "@mui/material";
 import Heading from "../Heading/Heading";
@@ -11,6 +12,7 @@ import { Spacer } from "../Spacer/Spacer";
 
 const Request = () => {
   const strings = useStrings();
+  const history = useHistory();
   const [matchId, setMatchId] = useState(window.location.hash.slice(1));
   const [error, setError] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
@@ -34,7 +36,7 @@ const Request = () => {
           await new Promise((resolve) => setTimeout(resolve, 5000));
         }
       }
-      window.location.href = `/matches/${matchId}`;
+      history.push(`/matches/${matchId}`);
       // Maybe could parse eventSource
       // On success or skip, redirect to match page
       // But if the job finishes really fast we might miss the logs, so polling more reliable
@@ -42,7 +44,7 @@ const Request = () => {
       setLoading(false);
       setError(true);
     }
-  }, [matchId]);
+  }, [matchId, history]);
   useEffect(() => {
     if (matchId) {
       // If preset, submit

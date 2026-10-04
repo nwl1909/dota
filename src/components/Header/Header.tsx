@@ -27,7 +27,7 @@ import LocalizationMenu from "../Localization/Localization";
 import SearchForm from "../Search/SearchForm";
 import useStrings from "../../hooks/useStrings.hook";
 
-const REPORT_BUG_PATH = `//github.com/${config.GITHUB_REPO}/issues`;
+const REPORT_BUG_PATH = `https://github.com/${config.GITHUB_REPO}/issues`;
 
 const VerticalAlignToolbar = styled.div`
   display: flex;
@@ -267,6 +267,10 @@ const AccountGroup = () => (
 
 const ReportBug = () => {
   const strings = useStrings();
+  // Если репозиторий не задан в config.ts — ссылка вела бы на github.com//issues
+  if (!config.GITHUB_REPO) {
+    return null;
+  }
   return (
     <DropdownMenuItem
       //@ts-expect-error

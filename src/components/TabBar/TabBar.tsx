@@ -74,10 +74,10 @@ const TabBar = ({
   const handleTabClick = useCallback(
     (e, tab, index) => {
       e.preventDefault();
-      history.push(e.currentTarget.getAttribute("href"));
+      history.push({ pathname: tab.route, search: location.search });
       setTabValue(index);
     },
-    [history],
+    [history, location.search],
   );
 
   return (
@@ -96,7 +96,10 @@ const TabBar = ({
             <StyledTab
               //@ts-expect-error
               component="a"
-              href={tab.route + window.location.search}
+              href={history.createHref({
+                pathname: tab.route,
+                search: location.search,
+              })}
               onClick={(e) => handleTabClick(e, tab, i)}
               label={tab.name}
               disabled={tab.disabled}

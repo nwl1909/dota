@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import { PlayerStatsCard } from "./Styled";
 import constants from "../../constants";
 import config from "../../../config";
-import { paramsWithTurbo } from "../../../utility.js";
+import { paramsWithTurbo } from "../../../utility";
 
 const shouldShow = (props: PlayedWithProps) =>
   props.loggedInId && props.loggedInId !== props.playerId;
