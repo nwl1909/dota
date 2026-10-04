@@ -12,6 +12,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import Settings from "@mui/icons-material/Settings";
 import LogoutIcon from "@mui/icons-material/Logout";
 import SearchIcon from "@mui/icons-material/Search";
+import SwapHorizIcon from "@mui/icons-material/SwapHoriz";
 import { Toolbar } from "@mui/material";
 import React, { useCallback, useEffect, useState, useRef } from "react";
 import { useSelector } from "react-redux";
@@ -46,7 +47,7 @@ const TabContainer = styled.div`
   font-weight: ${constants.fontWeightNormal};
   height: 100%;
   justify-content: center;
-  margin: 0 12px;
+  margin: 0 2px;
   text-align: center;
   position: relative;
   line-height: 1;
@@ -73,25 +74,29 @@ const DropdownMenuItem = styled(MenuItem)`
 `;
 
 const ToolbarHeader = styled(Toolbar)`
-  backdrop-filter: blur(16px);
+  position: sticky;
+  top: 0;
+  backdrop-filter: saturate(160%) blur(18px);
+  -webkit-backdrop-filter: saturate(160%) blur(18px);
   background-color: ${constants.colorHeaderToolbar};
-  box-shadow: 2px 2px 3px -2px rgb(0 0 0 / 23%);
+  border-bottom: 1px solid ${constants.border};
   width: 100%;
+  min-height: 60px !important;
   z-index: 200;
 
   & a {
     font-size: 0.875rem;
-    color: ${constants.primaryTextColor};
+    color: ${constants.textColorSecondary};
+  }
 
-    &:hover {
-      color: ${constants.primaryTextColor};
-      opacity: 0.6;
-    }
+  & a:hover {
+    color: ${constants.textColorPrimary};
   }
 `;
 
 const MenuContent = styled.div`
   background: ${constants.primarySurfaceColor};
+  border-right: 1px solid ${constants.border};
   max-width: 300px;
   height: 100%;
   overflow: auto;
@@ -109,19 +114,28 @@ const DrawerLink = styled(Link)`
   color: ${constants.textColorPrimary};
 
   & li:hover {
-    background-color: rgba(0, 0, 0, 0.08);
+    background-color: rgba(255, 255, 255, 0.06);
     transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   }
 
   span {
     font-family: ${constants.fontFamilyFuturistic};
-    font-size: ${constants.fontSizeSmall};
+    font-size: ${constants.fontSizeMedium};
   }
 `;
 
 const LinkGroupLink = styled(Link)`
   font-family: ${constants.fontFamilyFuturistic};
-  font-size: ${constants.fontSizeSmall} !important;
+  font-size: ${constants.fontSizeMedium} !important;
+  font-weight: 500;
+  padding: 8px 12px;
+  border-radius: 10px;
+  transition: ${constants.normalTransition};
+
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.07);
+    opacity: 1 !important;
+  }
 `;
 
 const LinkGroup = ({ navbarPages }: { navbarPages: any[] }) => (
@@ -219,6 +233,31 @@ const SearchGroup = () => (
     <SearchForm />
   </VerticalAlignToolbar>
 );
+
+const SwitchPlayerLink = styled(Link)`
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+  font-family: ${constants.fontFamilyFuturistic};
+  font-size: ${constants.fontSizeMedium} !important;
+  font-weight: 500;
+  padding: 7px 14px;
+  margin-right: 8px;
+  border-radius: 999px;
+  border: 1px solid ${constants.borderStrong};
+  background: rgba(255, 255, 255, 0.04);
+  color: ${constants.textColorPrimary} !important;
+
+  &:hover {
+    background: ${constants.gradient};
+    border-color: transparent;
+  }
+
+  @media only screen and (max-width: 680px) {
+    display: none;
+  }
+`;
 
 const AccountGroup = () => (
   <VerticalAlignToolbar>
@@ -364,6 +403,12 @@ const Header = ({
             gap: "4px",
           }}
         >
+          <VerticalAlignDiv>
+            <SwitchPlayerLink to="/">
+              <SwapHorizIcon style={{ fontSize: 18 }} />
+              Сменить игрока
+            </SwitchPlayerLink>
+          </VerticalAlignDiv>
           {!disableSearch && <SearchGroup />}
           <VerticalAlignDiv>
             {small && <AccountGroup />}

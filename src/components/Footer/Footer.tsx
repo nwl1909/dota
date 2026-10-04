@@ -8,8 +8,10 @@ import constants from "../constants";
 import useStrings from "../../hooks/useStrings.hook";
 
 const StyledFooter = styled.footer`
-  padding: 0px 50px 15px;
-  background-color: ${constants.defaultPrimaryColor};
+  padding: 0px 50px 24px;
+  margin-top: 24px;
+  background-color: rgba(8, 10, 18, 0.6);
+  border-top: 1px solid ${constants.border};
   color: ${constants.primaryTextColor};
   display: flex;
   flex-direction: row;

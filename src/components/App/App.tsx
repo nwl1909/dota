@@ -32,24 +32,57 @@ const Explorer = React.lazy(() => import("../Explorer/Explorer"));
 const darkTheme = createTheme({
   palette: {
     mode: "dark",
+    primary: { main: "#8b7bff" },
+    secondary: { main: "#22d3ee" },
+    background: { default: "#090b12", paper: "#141826" },
+    divider: "rgba(255, 255, 255, 0.08)",
+  },
+  shape: { borderRadius: 12 },
+  typography: {
+    fontFamily: 'Inter, system-ui, -apple-system, "Segoe UI", sans-serif',
   },
   components: {
+    MuiPaper: {
+      styleOverrides: {
+        root: { backgroundImage: "none" },
+      },
+    },
+    MuiCard: {
+      styleOverrides: {
+        root: {
+          backgroundColor: "rgba(255, 255, 255, 0.035)",
+          border: "1px solid rgba(255, 255, 255, 0.08)",
+          boxShadow: "none",
+        },
+      },
+    },
+    MuiTooltip: {
+      styleOverrides: {
+        tooltip: {
+          backgroundColor: "rgba(8, 10, 18, 0.96)",
+          border: "1px solid rgba(255, 255, 255, 0.08)",
+          borderRadius: 8,
+          fontSize: 12,
+        },
+      },
+    },
     MuiButton: {
       styleOverrides: {
         root: {
-          display: "flex-inline",
+          display: "inline-flex",
           alignItems: "center",
           textTransform: "none",
           fontFamily: constants.fontFamilyFuturistic,
-          fontSize: constants.fontSizeSmall,
-          fontWeight: 300,
+          fontSize: constants.fontSizeMedium,
+          fontWeight: 500,
+          borderRadius: 10,
+          transition: "all 200ms ease",
           "&:hover": {
-            backgroundColor: "transparent",
-            filter: "brightness(0.85)",
+            filter: "brightness(1.15)",
           },
         },
         startIcon: {
-          marginRight: 2,
+          marginRight: 6,
           "& .MuiSvgIcon-root": {
             fontSize: "1rem",
           },
@@ -85,56 +118,47 @@ const StyledDiv = styled.div<AppStylesProps>`
   height: 100%;
   left: ${(props) => (props.open ? "256px" : "0px")};
   margin-top: 0px;
-
-  background-image:
-    linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
-    ${(props) =>
-      props.location?.pathname === "/"
-        ? `url("/assets/images/home-background.png")`
-        : ""};
-  background-position: center top -8px;
-  background-repeat: ${(props) =>
-    props.location?.pathname === "/" ? "no-repeat" : ""};
 `;
 
 const Back2Top = styled.button<Back2TopStylesProps>`
   position: fixed;
   left: auto;
-  right: 0px;
+  right: 20px;
   top: auto;
-  bottom: 20px;
+  bottom: 24px;
   outline: none;
-  color: rgb(196, 196, 196);
+  color: ${constants.textColorPrimary};
   text-align: center;
-  outline: none;
-  border: none;
-  background-color: rgba(0, 0, 0, 0.3);
-  width: 40px;
-  font-size: 14px;
-  border-radius: 2px;
+  border: 1px solid ${constants.borderStrong};
+  background-color: rgba(20, 24, 38, 0.85);
+  backdrop-filter: blur(10px);
+  width: 48px;
+  font-size: 12px;
+  border-radius: 14px;
   cursor: pointer;
   z-index: 999999;
   opacity: 0;
   display: block;
   pointer-events: none;
   -webkit-transform: translate3d(0, 0, 0);
-  padding: 3px;
-  transition: opacity 0.3s ease-in-out;
+  padding: 6px 3px;
+  transition: opacity 0.3s ease-in-out, background 0.2s ease;
 
   &:hover {
-    background-color: rgb(26, 108, 239);
+    background: ${constants.gradient};
+    border-color: transparent;
   }
 
   #back2TopTxt {
-    font-size: 10px;
+    font-size: 9px;
     line-height: 12px;
     text-align: center;
-    margin-bottom: 3px;
+    margin-top: 2px;
   }
 `;
 
 const StyledBodyDiv = styled.div`
-  padding: 0px 25px 25px 25px;
+  padding: 0px 25px 40px 25px;
   flex-grow: 1;
 
   @media only screen and (min-width: ${constants.appWidth}px) {

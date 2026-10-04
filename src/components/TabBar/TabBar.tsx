@@ -9,7 +9,9 @@ const StyledMain = styled.main`
   position: relative;
   margin: 0px 0px 30px 0px;
   background-color: ${constants.colorHeaderSection};
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(12px);
+  border-top: 1px solid ${constants.border};
+  border-bottom: 1px solid ${constants.border};
   width: 100vw;
   left: 50%;
   right: 50%;
@@ -22,7 +24,9 @@ const StyledTabs = styled(Tabs)`
   justify-content: center;
 
   & .MuiTabs-indicator {
-    background: ${constants.primaryLinkColor};
+    background: ${constants.gradient};
+    height: 3px;
+    border-radius: 3px 3px 0 0;
   }
   & .MuiTabs-scroller {
     flex-grow: 0;
@@ -31,6 +35,10 @@ const StyledTabs = styled(Tabs)`
 
 const StyledTab = styled(Tab)`
   min-width: 0 !important;
+  text-transform: none !important;
+  font-family: ${constants.fontFamilyFuturistic} !important;
+  font-weight: 500 !important;
+  font-size: ${constants.fontSizeMedium} !important;
 `;
 
 const TabTooltip = ({

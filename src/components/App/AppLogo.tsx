@@ -5,13 +5,21 @@ import constants from "../constants";
 import useStrings from "../../hooks/useStrings.hook";
 
 const StyledLink = styled(Link)`
-  font-weight: ${constants.fontWeightMedium};
+  font-weight: 700;
   color: ${constants.textColorPrimary};
+  letter-spacing: 0.04em;
   text-transform: uppercase;
 
+  & span {
+    background: ${constants.gradient};
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+  }
+
   &:hover {
-    color: ${constants.textColorPrimary};
-    opacity: 0.6;
+    opacity: 0.85;
   }
 `;
 
@@ -31,11 +39,11 @@ const AppLogo = ({ size, onClick }: AppLogoProps) => {
       <span
         style={{
           fontFamily: constants.fontFamilyFuturistic,
-          fontSize: size,
+          fontSize: size || "1.15rem",
           whiteSpace: "nowrap",
         }}
       >
-        {strings.app_name && `<${strings.app_name}/>`}
+        {strings.app_name}
       </span>
     </StyledLink>
   );
