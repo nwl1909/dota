@@ -4,25 +4,27 @@ import Helmet from "react-helmet";
 import { Route, Switch, withRouter } from "react-router-dom";
 import styled from "styled-components";
 
-import Combos from "../Combos/Combos";
 import constants from "../constants";
-import Distributions from "../Distributions/Distributions";
 import Footer from "../Footer/Footer";
 import FourOhFour from "../FourOhFour/FourOhFour";
 import Header from "../Header/Header";
 import Home from "../Home/Home";
-import Matches from "../Matches/Matches";
-import Player from "../Player/Player";
-import Records from "../Records/Records";
-import Request from "../Request/Request";
-import Scenarios from "../Scenarios/Scenarios";
-import Search from "../Search/Search";
-import Teams from "../Teams/Teams";
 import Spinner from "../Spinner/Spinner";
-import Players from "../Players/Players";
-import Heroes from "../Heroes/Heroes";
 import useStrings from "../../hooks/useStrings.hook";
 
+const Combos = React.lazy(() => import("../Combos/Combos"));
+const Distributions = React.lazy(
+  () => import("../Distributions/Distributions"),
+);
+const Matches = React.lazy(() => import("../Matches/Matches"));
+const Player = React.lazy(() => import("../Player/Player"));
+const Records = React.lazy(() => import("../Records/Records"));
+const Request = React.lazy(() => import("../Request/Request"));
+const Scenarios = React.lazy(() => import("../Scenarios/Scenarios"));
+const Search = React.lazy(() => import("../Search/Search"));
+const Teams = React.lazy(() => import("../Teams/Teams"));
+const Players = React.lazy(() => import("../Players/Players"));
+const Heroes = React.lazy(() => import("../Heroes/Heroes"));
 const Status = React.lazy(() => import("../Status/Status"));
 const Explorer = React.lazy(() => import("../Explorer/Explorer"));
 
@@ -227,6 +229,8 @@ const App = (props: AppProps) => {
           />
           <Header location={location} />
           <StyledBodyDiv {...props}>
+            {/* свой Suspense: при подгрузке страницы шапка и футер не пропадают */}
+            <Suspense fallback={<Spinner />}>
             <Switch>
               <Route exact path="/" component={Home} />
               <Route
@@ -258,6 +262,7 @@ const App = (props: AppProps) => {
               {/* <Route exact path="/predictions" component={Predictions} /> */}
               <Route component={FourOhFour} />
             </Switch>
+            </Suspense>
           </StyledBodyDiv>
           <Footer />
           <Back2Top

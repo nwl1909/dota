@@ -20,8 +20,12 @@ export class HttpError extends Error {
 
 const normalize = (url: string) => url.replace(/\?$/, "");
 
-// Кэшируем только данные игроков (они не зависят от того, кто вошёл в аккаунт)
-const isCacheable = (url: string) => /\/api\/players\//.test(url);
+// Кэшируем публичные данные (они не зависят от того, кто вошёл в аккаунт).
+// /api/metadata сюда НЕ входит: в нём лежит текущий пользователь.
+const isCacheable = (url: string) =>
+  /\/api\/(players|heroes|heroStats|rankings|benchmarks|teams|proPlayers|topPlayers|distributions|records|scenarios)(\/|\?|$)/.test(
+    url,
+  );
 
 const readStored = (key: string): Entry | null => {
   try {

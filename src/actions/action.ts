@@ -30,7 +30,12 @@ export default function action(
       type: `ERROR/${type}`,
       error,
     });
-    const fetchDataWithRetry = async (delay: number): Promise<any> => {
+    const MAX_RETRIES = 4;
+    const MAX_DELAY = 15000;
+    const fetchDataWithRetry = async (
+      delay: number,
+      attempt = 0,
+    ): Promise<any> => {
       try {
         let json: any;
         try {
@@ -65,8 +70,14 @@ export default function action(
       } catch (e: any) {
         // eslint-disable-next-line no-console
         console.error(e, url);
-        if (e.fetchError && !e.clientError) {
-          setTimeout(() => fetchDataWithRetry(delay + 3000), delay);
+        // Повторяем не бесконечно: после MAX_RETRIES остаётся состояние ошибки,
+        // а не вечный спиннер. Лимит API (429) лечится паузой, а не частыми запросами.
+        if (e.fetchError && !e.clientError && attempt < MAX_RETRIES) {
+          setTimeout(
+            () =>
+              fetchDataWithRetry(Math.min(delay * 2, MAX_DELAY), attempt + 1),
+            delay,
+          );
         }
         if (!e.fetchError) {
           throw e;
