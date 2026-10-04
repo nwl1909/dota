@@ -39,13 +39,7 @@ export default function action(
       try {
         let json: any;
         try {
-          json = await fetchJson(
-            url,
-            // credentials нужны только для входа через Steam
-            url.startsWith(config.VITE_API_HOST) && !config.VITE_API_KEY
-              ? { credentials: "include" }
-              : {},
-          );
+          json = await fetchJson(url);
         } catch (e: any) {
           const err: any = new Error();
           err.fetchError = true;

@@ -1,8 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { Button } from "@mui/material";
 import LockIcon from "@mui/icons-material/Lock";
-import config from "../../config";
 import useStrings from "../../hooks/useStrings.hook";
 
 const Styled = styled.div`
@@ -26,18 +24,10 @@ const Styled = styled.div`
     margin-bottom: 2%;
   }
 
-  .signInWithSteamButton {
-    border: solid 1px #ffffff;
-    color: #ffffff;
-    padding: 1% 2%;
-  }
 `;
 
 const PlayerProfilePrivate = () => {
   const strings = useStrings();
-  const handleButtonClick = () => {
-    window.location.href = `${config.VITE_API_HOST}/login`;
-  };
   const playerProfilePrivateTitle = (
     strings.player_profile_private_title || ""
   ).toUpperCase();
@@ -52,9 +42,6 @@ const PlayerProfilePrivate = () => {
         <div className="playerProfilePrivateDescription">
           {strings.player_profile_private_description}
         </div>
-        <Button className="signInWithSteamButton" onClick={handleButtonClick}>
-          {strings.sign_in_with_steam}
-        </Button>
       </div>
     </Styled>
   );

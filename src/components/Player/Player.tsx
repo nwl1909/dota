@@ -87,18 +87,13 @@ class Player extends React.Component<PlayerProps> {
 
 const mapStateToProps = (state: any) => {
   const playerProfile = state.app.player.data.profile || {};
-  const loggedInUser = state.app.metadata.data.user || {};
 
   return {
     playerName: playerProfile.personaname,
     playerLoading: state.app.player.loading,
     officialPlayerName: playerProfile.name,
     strings: state.app.strings,
-    isPlayerProfilePublic:
-      !!playerProfile.name ||
-      !playerProfile.fh_unavailable ||
-      (playerProfile.fh_unavailable &&
-        loggedInUser.account_id === playerProfile.account_id),
+    isPlayerProfilePublic: !!playerProfile.name || !playerProfile.fh_unavailable,
   };
 };
 

@@ -1,7 +1,6 @@
 import React from "react";
 import styled, { keyframes } from "styled-components";
 import PlayerPicker from "./PlayerPicker";
-import Buttons from "./Buttons";
 import constants from "../constants";
 
 export interface HomePageProps {
@@ -63,12 +62,6 @@ const Subtitle = styled.p`
   animation: ${fadeIn} 0.6s ease 0.1s both;
 `;
 
-const LoginRow = styled.div`
-  margin-top: 40px;
-  display: flex;
-  justify-content: center;
-`;
-
 const Home = () => (
   <Wrapper>
     <Eyebrow>Dota 2 · статистика</Eyebrow>
@@ -79,9 +72,6 @@ const Home = () => (
       Выбери игрока — откроем его матчи, героев, рейтинг и всё остальное.
     </Subtitle>
     <PlayerPicker />
-    <LoginRow>
-      <Buttons />
-    </LoginRow>
   </Wrapper>
 );
 
