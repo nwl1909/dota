@@ -3,7 +3,17 @@ import { Link, useHistory } from "react-router-dom";
 import styled, { keyframes } from "styled-components";
 import SearchIcon from "@mui/icons-material/Search";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
+import { useDispatch } from "react-redux";
 import config from "../../config";
+import { fetchJson } from "../../apiCache";
+import {
+  getPlayer,
+  getPlayerWinLoss,
+  getPlayerRecentMatches,
+  getPlayerHeroes,
+  getPlayerPeers,
+  getPlayerCounts,
+} from "../../actions";
 import constants from "../constants";
 import {
   FAVORITE_PLAYERS,
@@ -298,12 +308,10 @@ const useProfiles = (players: FavoritePlayer[]) => {
     players.forEach(async (player) => {
       const base = `${config.VITE_API_HOST}/api/players/${player.accountId}`;
       try {
-        const [profileRes, wlRes] = await Promise.all([
-          fetch(base),
-          fetch(`${base}/wl`),
+        const [profile, wl] = await Promise.all([
+          fetchJson(base),
+          fetchJson(`${base}/wl`),
         ]);
-        const profile = await profileRes.json();
-        const wl = await wlRes.json();
         if (cancelled) return;
         setProfiles((prev) => ({
           ...prev,
@@ -332,6 +340,9 @@ const useProfiles = (players: FavoritePlayer[]) => {
   return profiles;
 };
 
+// Заранее грузим данные игрока при наведении — к клику они уже в кэше
+const prefetched = new Set<number>();
+
 const PlayerCard = ({
   player,
   profile,
@@ -341,6 +352,26 @@ const PlayerCard = ({
   profile: Profile;
   index: number;
 }) => {
+  const dispatch = useDispatch();
+  const prefetch = () => {
+    if (prefetched.has(player.accountId)) return;
+    prefetched.add(player.accountId);
+    const id = String(player.accountId);
+    [
+      getPlayer(id),
+      getPlayerWinLoss(id, ""),
+      getPlayerRecentMatches(id, ""),
+      getPlayerHeroes(id, ""),
+      getPlayerPeers(id, ""),
+      getPlayerCounts(id, ""),
+    ].forEach((thunk) => {
+      try {
+        Promise.resolve((dispatch as any)(thunk)).catch(() => {});
+      } catch (e) {
+        // игнорируем — это только предзагрузка
+      }
+    });
+  };
   const total = (profile.win || 0) + (profile.lose || 0);
   const winrate = total ? (100 * (profile.win || 0)) / total : 0;
   const tier = profile.rankTier ? Math.floor(profile.rankTier / 10) : 0;
@@ -349,6 +380,9 @@ const PlayerCard = ({
     <Card
       to={`/players/${player.accountId}`}
       onClick={() => setSelectedPlayer(player.accountId)}
+      onMouseEnter={prefetch}
+      onFocus={prefetch}
+      onTouchStart={prefetch}
       style={{ animationDelay: `${index * 90}ms` }}
     >
       <CardTop>

@@ -10,7 +10,7 @@ type ContainerProps = {
   style?: any;
   className?: string;
   loading?: boolean;
-  error?: string;
+  error?: string | number | boolean;
   children?: React.ReactNode;
   hide?: boolean;
   titleTo?: string;
@@ -39,7 +39,7 @@ const Container = ({
       {error && (
         <>
           <Spacer variant="1" />
-          <Error />
+          <Error text={typeof error === "string" || typeof error === "number" ? `HTTP ${error}` : undefined} />
         </>
       )}
       {!error && loading && <LoadingOverlayUpper30 text={text} />}

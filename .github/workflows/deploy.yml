@@ -38,6 +38,8 @@ jobs:
           npx vite build
         env:
           NODE_ENV: production
+          # необязательно: секрет OPENDOTA_API_KEY (Settings → Secrets → Actions)
+          VITE_API_KEY: ${{ secrets.OPENDOTA_API_KEY }}
       # SPA-фолбэк: GitHub Pages отдаёт 404.html для неизвестных путей,
       # поэтому /players/123 открывается через index.html
       - run: cp build/index.html build/404.html
