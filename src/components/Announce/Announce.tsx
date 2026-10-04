@@ -1,0 +1,176 @@
+import React, { MouseEventHandler } from "react";
+import { Button } from "@mui/material";
+import { connect } from "react-redux";
+import styled from "styled-components";
+import ReactMarkdown from "react-markdown";
+import { getGithubPulls } from "../../actions";
+import constants from "../constants";
+import useStrings from "../../hooks/useStrings.hook";
+
+const StyledDiv = styled.div`
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  background-color: #008eff;
+
+  & main,
+  & aside {
+    padding: 8px 20px;
+  }
+
+  & main {
+    flex-grow: 1;
+
+    & > div,
+    & a,
+    & p {
+      font-size: ${constants.fontSizeMedium};
+      margin: 0;
+      opacity: 0.85;
+    }
+
+    & a {
+      color: ${constants.textColorPrimary};
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+
+    & h4 {
+      font-weight: ${constants.fontWeightMedium};
+      font-size: ${constants.fontSizeCommon};
+      line-height: ${constants.fontSizeCommon};
+      margin: 0 0 2px;
+
+      & svg {
+        height: 16px;
+        fill: ${constants.textColorPrimary};
+        vertical-align: sub;
+      }
+    }
+
+    & ul {
+      margin: 2px 0 0;
+      padding-left: 20px;
+
+      & li {
+        list-style-type: circle;
+
+        &::first-letter {
+          text-transform: capitalize;
+        }
+      }
+    }
+  }
+
+  & aside {
+    flex-shrink: 0;
+  }
+`;
+const Announce = ({
+  title,
+  body,
+  onClick,
+  link,
+}: {
+  title: string;
+  body: string;
+  onClick: MouseEventHandler<{}>;
+  link: string;
+}) => {
+  const strings = useStrings();
+  return (
+    <StyledDiv>
+      <main>
+        <h4>{title}</h4>
+        {body && <ReactMarkdown>{body}</ReactMarkdown>}
+      </main>
+      <aside>
+        <Button href={link} target="_blank">
+          {strings.announce_github_more}
+        </Button>
+      </aside>
+      <aside>
+        <Button onClick={onClick}>{strings.announce_dismiss}</Button>
+      </aside>
+    </StyledDiv>
+  );
+};
+
+class AnnounceWrapper extends React.Component<
+  {
+    error: string;
+    getPulls: Function;
+    loading: boolean;
+    data: any;
+  },
+  { dismissed?: boolean }
+> {
+  constructor(props: any) {
+    super(props);
+
+    this.state = {};
+  }
+
+  dismiss = (value: string) => {
+    if (localStorage) {
+      localStorage.setItem("dismiss", value);
+    }
+    this.setState({ dismissed: true });
+  };
+
+  getDate = (days: number) => {
+    const msPerDay = 24 * 60 * 60 * 1000;
+    const date = new Date(Number(new Date()) - msPerDay * days);
+    return date.toISOString().split("T")[0];
+  };
+
+  componentDidMount() {
+    this.props.getPulls(this.getDate(5));
+  }
+
+  render() {
+    const { error, loading, data } = this.props;
+
+    if (!error && !loading && data) {
+      if (data.items && data.items[0]) {
+        const { title, body, number, html_url: link } = data.items[0];
+
+        if (
+          localStorage &&
+          !this.state.dismissed &&
+          Number(localStorage.getItem("dismiss")) < number
+        ) {
+          return (
+            <Announce
+              title={title}
+              body={body}
+              onClick={() => this.dismiss(number)}
+              link={link}
+            />
+          );
+        }
+      }
+    }
+
+    return null;
+  }
+}
+
+const mapStateToProps = (state: any) => {
+  const { error, loading, data } = state.app.ghPulls;
+
+  return {
+    error,
+    loading,
+    data,
+  };
+};
+
+const mapDispatchToProps = (dispatch: any) => ({
+  getPulls: (repo: string) => dispatch(getGithubPulls(repo)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(AnnounceWrapper);

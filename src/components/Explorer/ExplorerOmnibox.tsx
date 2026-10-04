@@ -1,0 +1,59 @@
+import React from "react";
+import { TextField } from "@mui/material";
+import editDistance from "./editDistance";
+
+const ExplorerOmnibox = (context: any, expandedFields: any) => (
+  <TextField
+    style={{ display: "none" }}
+    onChange={(event: any) => {
+      const value = event.target.value;
+      // Sample input 'dendi antimage'
+      // Iterate over the fields and phrase tokens
+      // Keep track of the best match for each field + token
+      // TODO handle multi-word phrases like 'evil geniuses', 'gold per min'
+      const result: any[] = [];
+      Object.keys(expandedFields).forEach((field) => {
+        value.split(" ").forEach((token: string) => {
+          const distances = expandedFields[field].map((element: any) => ({
+            field,
+            token,
+            searchText: element.searchText,
+            key: element.key,
+            editDistance: editDistance(
+              token.toLowerCase(),
+              (element.searchText || element.text).toLowerCase(),
+            ),
+          }));
+          distances.sort((a: any, b: any) => a.editDistance - b.editDistance);
+          const bestMatch = distances[0];
+          result.push(bestMatch);
+        });
+      });
+      // TODO order by field keys for precedence (e.g. hero should match before player, use as tiebreak for equal distance)
+      result.sort((a, b) => a.editDistance - b.editDistance);
+      // For each field, pick the best token. A token can't be used more than once.
+      // Minimizing the total is N*M time where N is the number of fields and M is the number of words
+      // Apply state update with best fit (matchedBuilder)
+      const alreadyUsedTokens: Record<string, any> = {};
+      const alreadyUsedFields: Record<string, any> = {};
+      const matchedBuilder: Record<string, any> = {};
+      Object.keys(expandedFields).forEach(() => {
+        for (let i = 0; i < result.length; i += 1) {
+          const element = result[i];
+          if (
+            !alreadyUsedTokens[element.token] &&
+            !alreadyUsedFields[element.field]
+          ) {
+            matchedBuilder[element.field] = element.key;
+            alreadyUsedTokens[element.token] = true;
+            alreadyUsedFields[element.field] = true;
+            break;
+          }
+        }
+      });
+      context.setState({ ...context.state, builder: { ...matchedBuilder } });
+    }}
+  />
+);
+
+export default ExplorerOmnibox;

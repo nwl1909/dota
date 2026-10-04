@@ -1,0 +1,218 @@
+import React from "react";
+import { connect } from "react-redux";
+import { Button } from "@mui/material";
+import Helmet from "react-helmet";
+import styled from "styled-components";
+import { heroSelector } from "../../reducers/selectors";
+import Heading from "../Heading/Heading";
+import TabBar from "../TabBar/TabBar";
+import Spinner from "../Spinner/Spinner";
+import ErrorBox from "../Error/ErrorBox";
+import Header from "./Header";
+import Ranking from "./Ranking";
+import Benchmark from "./Benchmark";
+import Recent from "./Recent";
+import Matchups from "./Matchups";
+import AttributesBlock from "./AttributesBlock";
+import Durations from "./Durations";
+import Players from "./Players";
+import ItemsSuggestion from "./ItemSuggestion";
+import { LoadingOverlayUpper30 } from "../LoadingOverlay";
+
+const HeroBlock = styled.div`
+  margin-bottom: 8px;
+`;
+
+const HeroFooter = styled.div`
+  margin-top: 8px;
+  padding: 8px 0;
+  text-align: center;
+`;
+
+const TabsBlock = styled.div`
+  width: 100%;
+`;
+
+type HeroProps = {
+  match: {
+    params: {
+      info: string;
+      heroId: string;
+    };
+  };
+  heroes: Hero[];
+  strings: Strings;
+};
+
+class Hero extends React.Component<HeroProps> {
+  static defaultProps = {
+    heroes: [],
+  };
+
+  constructor(props: HeroProps) {
+    super(props);
+  }
+
+  state = {
+    detailsOpen: false,
+  };
+
+  toggleDetailVisibility = (e: any) => {
+    e.preventDefault();
+
+    this.setState({
+      detailsOpen: !this.state.detailsOpen,
+    });
+  }
+
+  render() {
+    const { strings } = this.props;
+    const route = this.props.match.params.info || "rankings";
+    const { heroId } = this.props.match.params;
+    const hero = heroSelector(this.props.heroes, heroId);
+
+    if (this.props.heroes.length === 0) {
+      return <LoadingOverlayUpper30 text="Loading..." />;
+    }
+
+    if (!hero) {
+      const errorText = `Hero ${heroId} not found...`;
+      return <ErrorBox text={errorText} />;
+    }
+
+    const tabs = (tabsHeroId: string) => [
+      {
+        name: strings.tab_rankings,
+        key: "rankings",
+        content: (props: HeroProps) => (
+          <div>
+            <Heading
+              title={strings.tab_rankings}
+              subtitle={strings.rankings_description}
+            />
+            <Ranking {...props} />
+          </div>
+        ),
+        route: `/heroes/${tabsHeroId}/rankings`,
+      },
+      {
+        name: strings.tab_benchmarks,
+        key: "benchmarks",
+        content: (props: HeroProps) => (
+          <div>
+            <Heading
+              title={strings.tab_benchmarks}
+              subtitle={strings.hero_disclaimer_public}
+            />
+            <Benchmark {...props} />
+          </div>
+        ),
+        route: `/heroes/${tabsHeroId}/benchmarks`,
+      },
+      {
+        name: strings.tab_recent,
+        key: "recent",
+        content: (props: HeroProps) => (
+          <div>
+            <Heading
+              title={strings.tab_recent}
+              subtitle={strings.hero_disclaimer_pro}
+            />
+            <Recent {...props} />
+          </div>
+        ),
+        route: `/heroes/${tabsHeroId}/recent`,
+      },
+      {
+        name: strings.tab_matchups,
+        key: "matchups",
+        content: (props: HeroProps) => (
+          <div>
+            <Heading
+              title={strings.tab_matchups}
+              subtitle={strings.hero_disclaimer_pro}
+            />
+            <Matchups {...props} />
+          </div>
+        ),
+        route: `/heroes/${tabsHeroId}/matchups`,
+      },
+      {
+        name: strings.tab_durations,
+        key: "durations",
+        content: (props: HeroProps) => (
+          <div>
+            <Heading
+              title={strings.tab_durations}
+              subtitle={strings.hero_disclaimer_pro}
+            />
+            <Durations {...props} />
+          </div>
+        ),
+        route: `/heroes/${tabsHeroId}/durations`,
+      },
+      {
+        name: strings.tab_players,
+        key: "players",
+        content: (props: HeroProps) => (
+          <div>
+            <Heading
+              title={strings.tab_players}
+              subtitle={strings.hero_disclaimer_pro}
+            />
+            <Players
+              {...props}
+              loadingText={`Loading ${hero?.localized_name} players...`}
+            />
+          </div>
+        ),
+        route: `/heroes/${tabsHeroId}/players`,
+      },
+      {
+        name: strings.tab_items,
+        key: "items",
+        content: (props: HeroProps) => (
+          <>
+            <Heading
+              title="Suggested Items"
+              subtitle={strings.hero_disclaimer_pro}
+            />
+            <ItemsSuggestion {...props} />
+          </>
+        ),
+        route: `/heroes/${tabsHeroId}/items`,
+      },
+    ];
+
+    const currentTab = tabs(heroId).find((tab) => tab.key === route);
+    return (
+      <div>
+        <Helmet title={hero.localized_name} />
+        <HeroBlock>
+          <Header hero={hero} />
+          <HeroFooter>
+            <Button variant="outlined" onClick={this.toggleDetailVisibility}>
+              {this.state.detailsOpen
+                ? strings.hide_details
+                : strings.show_details}
+            </Button>
+          </HeroFooter>
+          {this.state.detailsOpen && <AttributesBlock hero={hero} />}
+        </HeroBlock>
+        <TabsBlock>
+          <TabBar tabs={tabs(heroId)} />
+          {currentTab ? currentTab.content(this.props) : null}
+        </TabsBlock>
+      </div>
+    );
+  }
+}
+
+const mapStateToProps = (state: any) => ({
+  isLoading: state.app.heroStats.loading,
+  isError: state.app.heroStats.error,
+  heroes: state.app.heroStats.data,
+  strings: state.app.strings,
+});
+
+export default connect(mapStateToProps)(Hero);
