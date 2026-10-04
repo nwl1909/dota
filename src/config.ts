@@ -1,8 +1,8 @@
 export default {
-  GITHUB_REPO: "odota/web",
-  DISCORD_LINK: "opendota",
+  GITHUB_REPO: "",
+  DISCORD_LINK: "",
   VITE_API_HOST: import.meta.env.VITE_API_HOST || "https://api.opendota.com",
-  // Необязательный ключ OpenDota (opendota.com/api-keys) — повышает лимит запросов
+  // Необязательный ключ API — повышает лимит запросов
   VITE_API_KEY: import.meta.env.VITE_API_KEY || "",
   VITE_IMAGE_CDN:
     import.meta.env.VITE_IMAGE_CDN || "https://cdn.cloudflare.steamstatic.com",

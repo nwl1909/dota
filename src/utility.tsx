@@ -218,7 +218,6 @@ export const IMAGESIZE_ENUM = {
   },
 
   // if you ever wanna see what the above look like (change the suffix):
-  // https://api.opendota.com/apps/dota2/images/dota_react/heroes/abaddon_full.png
 };
 
 const getTitle = (row: any, col: any, heroName: string) => {

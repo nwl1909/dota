@@ -1,6 +1,6 @@
 {
-  "name": "opendota-web",
-  "description": "Dota 2 Data Web UI",
+  "name": "fomindota-web",
+  "description": "FominDota - Dota 2 statistics",
   "version": "1.0.1",
   "private": true,
   "license": "MIT",
@@ -9,12 +9,10 @@
     "start": "vite --host",
     "preview": "vite preview --host",
     "build": "vite build && npm run typecheck",
-    "test": "testcafe -c 4 chrome:headless testcafe/ --app \"vite preview --host --port 5000 \"",
     "analyze": "npx source-map-explorer 'build/assets/*.js' --html result.html --no-border-checks",
     "typecheck": "tsc --project tsconfig.json --noEmit",
     "lintfix": "eslint . --ext .ts,.tsx,.js,.jsx --fix",
     "lint": "eslint . --ext .ts,.tsx,.js,.jsx",
-    "update:emoticons": "npm r dota2-emoticons && npm i dota2-emoticons && node dev/updateEmoticons.js",
     "prettier": "npx prettier --write ."
   },
   "dependencies": {
@@ -69,10 +67,6 @@
     "typescript": "^5.9.3",
     "vdf-parser": "^1.2.1",
     "vite": "^7.3.6"
-  },
-  "repository": {
-    "type": "git",
-    "url": "http://github.com/odota/web"
   },
   "browserslist": [
     ">0.2%",

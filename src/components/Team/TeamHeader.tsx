@@ -48,7 +48,7 @@ export default (generalData: any, strings: Strings) => (
                 height="24px"
               />
             }
-            href="https://rivalry.com/opendota"
+            href="https://rivalry.com"
             target="_blank"
             rel="noopener noreferrer"
           />

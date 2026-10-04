@@ -496,7 +496,7 @@ const PlayerPicker = () => {
         />
         <button type="submit">Найти</button>
       </CustomForm>
-      <Hint>Статистика берётся из OpenDota по Dota 2 ID</Hint>
+      <Hint>Статистика по Dota 2 ID</Hint>
     </>
   );
 };

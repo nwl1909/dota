@@ -369,16 +369,6 @@ const Header = ({
       to: "/scenarios",
       label: strings.header_scenarios,
     },
-    {
-      key: "header_api",
-      to: "/api-keys",
-      label: strings.header_api,
-    },
-    {
-      key: "header_subscribe",
-      to: "/subscribe",
-      label: strings.header_subscribe,
-    },
     // {
     //   key: 'header_predictions',
     //   to: '/predictions',

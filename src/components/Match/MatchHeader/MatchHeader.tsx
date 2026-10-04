@@ -403,7 +403,7 @@ const MatchHeader = ({ match }: { match: Match }) => {
                 height="24px"
               />
             }
-            href="https://dota-coach.com?s=OpenDota&c=analytics"
+            href="https://dota-coach.com"
             target="_blank"
             rel="noopener noreferrer"
           />
@@ -418,7 +418,7 @@ const MatchHeader = ({ match }: { match: Match }) => {
                 height="24px"
               />
             }
-            href="https://www.rivalry.com/opendota"
+            href="https://www.rivalry.com"
             target="_blank"
             rel="noopener noreferrer"
           />

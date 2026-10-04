@@ -32,7 +32,7 @@ const AppLogo = ({ size, onClick }: AppLogoProps) => {
   const strings = useStrings();
   return (
     <StyledLink
-      aria-label="Go to the Open Dota homepage"
+      aria-label="FominDota"
       to="/"
       onClick={onClick}
     >

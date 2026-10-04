@@ -94,7 +94,7 @@ export default (strings: Strings, beta = false) => {
         // guideType={guideType}
         // guideUrl={
         //   heroes[row.hero_id] &&
-        //   `https://moremmr.com/en/heroes/${heroName}/videos?utm_source=opendota&utm_medium=heroes&utm_campaign=${heroName}`
+        //   `https://moremmr.com/en/heroes/${heroName}/videos?utm_source=site&utm_medium=heroes&utm_campaign=${heroName}`
         // }
         randomed={row.randomed}
         repicked={row.repicked}

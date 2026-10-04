@@ -5,8 +5,6 @@ import { Route, Switch, withRouter } from "react-router-dom";
 import styled from "styled-components";
 
 import Combos from "../Combos/Combos";
-import Api from "../Api/Api";
-import Subscription from "../Subscription/Subscription";
 import constants from "../constants";
 import Distributions from "../Distributions/Distributions";
 import Footer from "../Footer/Footer";
@@ -20,7 +18,6 @@ import Request from "../Request/Request";
 import Scenarios from "../Scenarios/Scenarios";
 import Search from "../Search/Search";
 import Teams from "../Teams/Teams";
-import config from "../../config";
 import Spinner from "../Spinner/Spinner";
 import Players from "../Players/Players";
 import Heroes from "../Heroes/Heroes";
@@ -259,27 +256,9 @@ const App = (props: AppProps) => {
               {/* <Route exact path="/meta" component={Meta} /> */}
               <Route exact path="/scenarios/:info?" component={Scenarios} />
               {/* <Route exact path="/predictions" component={Predictions} /> */}
-              <Route exact path="/api-keys" component={Api} />
-              <Route exact path="/subscribe" component={Subscription} />
               <Route component={FourOhFour} />
             </Switch>
           </StyledBodyDiv>
-          <AdBannerDiv>
-            {includeAds && config.VITE_ENABLE_RIVALRY && (
-              <div style={{ fontSize: "12px" }}>
-                <a href="https://www.rivalry.com/opendota">
-                  <img
-                    src="/assets/images/rivalry-banner.gif"
-                    alt="Logo for Rivalry.com"
-                  />
-                </a>
-                <div>
-                  {strings.home_sponsored_by}{" "}
-                  <a href="https://www.rivalry.com/opendota">Rivalry</a>
-                </div>
-              </div>
-            )}
-          </AdBannerDiv>
           <Footer />
           <Back2Top
             //@ts-expect-error
