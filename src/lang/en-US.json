@@ -1238,5 +1238,15 @@
   "destroyed_tormentor": "Have destroyed the Tormentor",
   "drew_first_blood": "Drew First Blood",
   "player_profile_private_title": "This profile is private",
-  "player_profile_private_description": "Enable Expose Public Match Data in the Dota client to make your profile public."
+  "player_profile_private_description": "Enable Expose Public Match Data in the Dota client to make your profile public.",
+  "wordcloud_view_cloud": "Cloud",
+  "wordcloud_view_list": "List",
+  "wordcloud_top": "Top",
+  "wordcloud_hide_common": "Hide common words",
+  "wordcloud_search": "Find a word",
+  "wordcloud_total_words": "Total words",
+  "wordcloud_unique_words": "Unique",
+  "wordcloud_shown": "Shown",
+  "wordcloud_empty": "No words to show",
+  "wordcloud_times": "times"
 }

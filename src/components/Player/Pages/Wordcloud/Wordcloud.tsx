@@ -44,14 +44,14 @@ class WordcloudPage extends React.Component<Props> {
           error={error}
           loading={loading}
         >
-          <Wordcloud counts={data.my_word_counts} />
+          <Wordcloud counts={data?.my_word_counts} />
         </Container>
         <Container
           title={strings.heading_wordcloud_read}
           error={error}
           loading={loading}
         >
-          <Wordcloud counts={data.all_word_counts} />
+          <Wordcloud counts={data?.all_word_counts} />
         </Container>
       </div>
     );

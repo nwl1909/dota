@@ -1212,5 +1212,15 @@
   "destroyed_tormentor": "Уничтожили Терзателя",
   "drew_first_blood": "Совершили первое убийство",
   "player_profile_private_title": "Профиль закрыт",
-  "player_profile_private_description": "Включите параметр «Показывать данные публичных матчей» в клиенте Dota, чтобы сделать профиль публичным."
+  "player_profile_private_description": "Включите параметр «Показывать данные публичных матчей» в клиенте Dota, чтобы сделать профиль публичным.",
+  "wordcloud_view_cloud": "Облако",
+  "wordcloud_view_list": "Список",
+  "wordcloud_top": "Топ",
+  "wordcloud_hide_common": "Скрыть служебные слова",
+  "wordcloud_search": "Найти слово",
+  "wordcloud_total_words": "Всего слов",
+  "wordcloud_unique_words": "Уникальных",
+  "wordcloud_shown": "Показано",
+  "wordcloud_empty": "Нет слов для отображения",
+  "wordcloud_times": "раз"
 }
