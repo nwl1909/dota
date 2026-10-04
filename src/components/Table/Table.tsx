@@ -153,14 +153,21 @@ class Table extends React.Component<TableProps, TableState> {
     });
   };
 
-  sortClick = (sortField: string, sortState: string, sortFn: Function) => {
+  sortClick = (
+    sortField: string,
+    sortState: string,
+    sortFn: Function,
+    direction?: "asc" | "desc",
+  ) => {
     const { state } = this;
     this.setState({
+      // direction передаётся при клике на конкретную стрелку ▲/▼
       sortState:
-        sortField === state.sortField
+        direction ||
+        (sortField === state.sortField
           ? //@ts-expect-error
             SORT_ENUM.next(SORT_ENUM[state.sortState])
-          : SORT_ENUM[0],
+          : SORT_ENUM[0]),
       sortField,
       sortFn,
     });

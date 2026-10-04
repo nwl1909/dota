@@ -56,8 +56,18 @@ export const rankColumns = (props: Props) => {
     [HeroesTab.PUBLIC]: generatePublicTabColumns(props.strings),
     [HeroesTab.TURBO]: generateTurboTabColumns(props.strings),
   };
-  return columns[props.tabType];
+  // sortIcon — показывать кнопки сортировки ▲▼ в заголовке;
+  // у колонки героя сортировку начинаем с A→Я
+  return (columns[props.tabType] as any[]).map((column: any) => ({
+    ...column,
+    sortIcon: true,
+    initialSort: column.field === "hero_id" ? "asc" : undefined,
+  }));
 };
+
+// Доля в процентах; NaN/Infinity (нет игр) показываем прочерком, а не «NaN»
+const formatPercent = (_row: Row, _col: any, value: any) =>
+  Number.isFinite(value) ? (value * 100).toFixed(1) : "–";
 
 const generateTurboTabColumns = (strings: Strings) => {
   const heroColumn = generateHeroColumn(strings);
@@ -68,8 +78,7 @@ const generateTurboTabColumns = (strings: Strings) => {
       displayName: strings.hero_turbo_pick_rate,
       field: "pickRateTurbo",
       sortFn: true,
-      displayFn: (_row: Row, _col: string, field: any) =>
-        (field * 100).toFixed(1),
+      displayFn: formatPercent,
       percentBarsWithValue: (row: Row) =>
         decimalToCount(row.pickRateTurbo, row.matchCountTurbo),
     },
@@ -77,8 +86,7 @@ const generateTurboTabColumns = (strings: Strings) => {
       displayName: strings.hero_turbo_win_rate,
       field: "winRateTurbo",
       sortFn: true,
-      displayFn: (_row: Row, _col: string, field: any) =>
-        (field * 100).toFixed(1),
+      displayFn: formatPercent,
       percentBarsWithValue: (row: Row) =>
         decimalToCount(row.winRateTurbo, row.turbo_picks),
     },
@@ -164,8 +172,7 @@ const generatePublicTabColumns = (strings: Strings) => {
       displayName: `${strings.rank_tier_overall} ${strings.abbr_pick}%`,
       field: "pickRatePub",
       sortFn: true,
-      displayFn: (_row: Row, _col: string, field: any) =>
-        (field * 100).toFixed(1),
+      displayFn: formatPercent,
       percentBarsWithValue: (row: Row) =>
         decimalToCount(row.pickRatePub, row.matchCountPub),
     },
@@ -173,8 +180,7 @@ const generatePublicTabColumns = (strings: Strings) => {
       displayName: `${strings.rank_tier_overall} ${strings.abbr_win}%`,
       field: "winRatePub",
       sortFn: true,
-      displayFn: (_row: Row, _col: string, field: any) =>
-        (field * 100).toFixed(1),
+      displayFn: formatPercent,
       percentBarsWithValue: (row: Row) =>
         decimalToCount(row.winRatePub, row.pickCountPub),
     },
@@ -183,8 +189,7 @@ const generatePublicTabColumns = (strings: Strings) => {
       displayIcon: getRankIcon(8),
       field: "pickRateHigh",
       sortFn: true,
-      displayFn: (_row: Row, _col: string, field: any) =>
-        (field * 100).toFixed(1),
+      displayFn: formatPercent,
       percentBarsWithValue: (row: Row) =>
         decimalToCount(row.pickRateHigh, row.matchCountHigh),
       colColor: constants.colorImmortal,
@@ -194,8 +199,7 @@ const generatePublicTabColumns = (strings: Strings) => {
       displayIcon: getRankIcon(8),
       field: "winRateHigh",
       sortFn: true,
-      displayFn: (_row: Row, _col: string, field: any) =>
-        (field * 100).toFixed(1),
+      displayFn: formatPercent,
       percentBarsWithValue: (row: Row) =>
         decimalToCount(row.winRateHigh, row.pickCountHigh),
       colColor: constants.colorImmortalAlt,
@@ -205,8 +209,7 @@ const generatePublicTabColumns = (strings: Strings) => {
       displayIcon: getRankIcon(5),
       field: "pickRateMid",
       sortFn: true,
-      displayFn: (_row: Row, _col: string, field: any) =>
-        (field * 100).toFixed(1),
+      displayFn: formatPercent,
       percentBarsWithValue: (row: Row) =>
         decimalToCount(row.pickRateMid, row.matchCountMid),
       colColor: constants.colorLegend,
@@ -216,8 +219,7 @@ const generatePublicTabColumns = (strings: Strings) => {
       displayIcon: getRankIcon(5),
       field: "winRateMid",
       sortFn: true,
-      displayFn: (_row: Row, _col: string, field: any) =>
-        (field * 100).toFixed(1),
+      displayFn: formatPercent,
       percentBarsWithValue: (row: Row) =>
         decimalToCount(row.winRateMid, row.pickCountMid),
       colColor: constants.colorLegendAlt,
@@ -227,8 +229,7 @@ const generatePublicTabColumns = (strings: Strings) => {
       displayIcon: getRankIcon(3),
       field: "pickRateLow",
       sortFn: true,
-      displayFn: (_row: Row, _col: string, field: any) =>
-        (field * 100).toFixed(1),
+      displayFn: formatPercent,
       percentBarsWithValue: (row: Row) =>
         decimalToCount(row.pickRateLow, row.matchCountLow),
       colColor: constants.colorCrusader,
@@ -238,8 +239,7 @@ const generatePublicTabColumns = (strings: Strings) => {
       displayIcon: getRankIcon(3),
       field: "winRateLow",
       sortFn: true,
-      displayFn: (_row: Row, _col: string, field: any) =>
-        (field * 100).toFixed(1),
+      displayFn: formatPercent,
       percentBarsWithValue: (row: Row) =>
         decimalToCount(row.winRateLow, row.pickCountLow),
       colColor: constants.colorCrusaderAlt,

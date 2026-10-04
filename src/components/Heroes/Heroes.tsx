@@ -55,10 +55,14 @@ class HeroesPage extends React.Component<HeroesProps> {
       key,
       content: (data: any, _columns: any[], loading: boolean) => (
         <Table
+          // key: при смене вкладки сбрасываем сортировку — у вкладок разные колонки
+          key={key}
           data={data}
           columns={_columns}
           loading={loading}
           loadingText="Loading heroes from professional matches..."
+          // на широких экранах таблица раньше обрезалась без прокрутки
+          overflowAuto
         />
       ),
       route: `/heroes/${key}`,
